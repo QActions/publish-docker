@@ -1,0 +1,37 @@
+name: "Publish Docker image"
+description: "Publishes a Docker image to AWS"
+inputs:
+  ref:
+    description: "The git reference (github.ref)"
+    required: false
+    default: ${{ github.ref }}
+  project_version:
+    description: "The current version of the project"
+    required: true
+  project_name:
+    description: "The name of the project"
+    required: true
+  sha:
+    description: "The git sha from current commit"
+    required: false
+    default: ${{github.sha}}
+
+runs:
+  using: composite
+  steps:
+    - name: Publish Docker image
+      run: |
+        repository=528241396244.dkr.ecr.$AWS_REGION.amazonaws.com
+        if [ "${{inputs.ref}}" == "refs/heads/master" ]
+        then
+          image_tag=${{inputs.project_version}}
+        else
+          short_commit_hash=${sha:0:7}
+          image_tag=${{inputs.project_version}}-dev-$short_commit_hash
+        fi
+
+        image_name="$repository/exhz/$project_name:$image_tag"
+        docker tag service $image_name
+        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $repository
+        docker push $image_name
+      shell: bash
