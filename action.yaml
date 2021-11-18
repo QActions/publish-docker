@@ -5,12 +5,6 @@ inputs:
     description: "The git reference (github.ref)"
     required: false
     default: ${{ github.ref }}
-  project_version:
-    description: "The current version of the project"
-    required: true
-  project_name:
-    description: "The name of the project"
-    required: true
   sha:
     description: "The git sha from current commit"
     required: false
@@ -21,17 +15,17 @@ runs:
   steps:
     - name: Publish Docker image
       run: |
-        repository=528241396244.dkr.ecr.$AWS_REGION.amazonaws.com
+        repository=528241396244.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com
         if [ "${{inputs.ref}}" == "refs/heads/master" ]
         then
-          image_tag=${{inputs.project_version}}
+          image_tag=${{env.PROJECT_VERSION}}
         else
           short_commit_hash=${sha:0:7}
-          image_tag=${{inputs.project_version}}-dev-$short_commit_hash
+          image_tag=${{env.PROJECT_VERSION}}-dev-$short_commit_hash
         fi
 
         image_name="$repository/exhz/$project_name:$image_tag"
         docker tag service $image_name
-        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $repository
+        aws ecr get-login-password --region ${{env.AWS_REGION}} | docker login --username AWS --password-stdin $repository
         docker push $image_name
       shell: bash
