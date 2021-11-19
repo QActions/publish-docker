@@ -25,7 +25,7 @@ runs:
           image_tag=${{env.PROJECT_VERSION}}-dev-$short_commit_hash
         fi
 
-        image_name="$repository/exhz/$project_name:$image_tag"
+        image_name="$repository/exhz/${PROJECT_NAME}:$image_tag"
         docker tag service $image_name
         aws ecr get-login-password --region ${{env.AWS_REGION}} | docker login --username AWS --password-stdin $repository
         docker push $image_name
