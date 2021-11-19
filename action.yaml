@@ -20,7 +20,7 @@ runs:
         then
           image_tag=${{env.PROJECT_VERSION}}
         else
-          sha = "${{inputs.sha}}"
+          sha=${{inputs.sha}}
           short_commit_hash=${sha:0:7}
           image_tag=${{env.PROJECT_VERSION}}-dev-$short_commit_hash
         fi
