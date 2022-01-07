@@ -1,5 +1,5 @@
-name: "Publish Docker image"
-description: "Publishes a Docker image to AWS"
+name: "Publish service image"
+description: "Publishes a service Docker image to AWS"
 inputs:
   ref:
     description: "The git reference (github.ref)"
