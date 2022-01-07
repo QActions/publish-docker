@@ -15,7 +15,7 @@ runs:
   steps:
     - name: Publish Docker image
       run: |
-        repository=528241396244.dkr.ecr.${{env.AWS_REGION}}.amazonaws.com
+        repository=528241396244.dkr.ecr.eu-central-1.amazonaws.com
         if [ "${{inputs.ref}}" == "refs/heads/master" ]
         then
           image_tag=${{env.PROJECT_VERSION}}
@@ -27,6 +27,6 @@ runs:
 
         image_name="$repository/exhz/${PROJECT_NAME}:$image_tag"
         docker tag service $image_name
-        aws ecr get-login-password --region ${{env.AWS_REGION}} | docker login --username AWS --password-stdin $repository
+        aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $repository
         docker push $image_name
       shell: bash
