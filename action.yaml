@@ -22,7 +22,7 @@ runs:
         else
           sha=${{inputs.sha}}
           short_commit_hash=${sha:0:7}
-          image_tag=${{env.PROJECT_VERSION}}-dev-$short_commit_hash
+          image_tag=${{env.PROJECT_VERSION}}-dev-${{github.run_number}}-$short_commit_hash
         fi
 
         image_name="$repository/exhz/${PROJECT_NAME}:$image_tag"
