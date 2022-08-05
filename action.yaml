@@ -20,9 +20,15 @@ runs:
         then
           image_tag=${{env.PROJECT_VERSION}}
         else
+          if [ "${{inputs.ref}}" == "refs/heads/dev" ]
+          then
+            branch_tag="dev"
+          else
+            branch_tag="feat"
+          fi
           sha=${{inputs.sha}}
           short_commit_hash=${sha:0:7}
-          image_tag=${{env.PROJECT_VERSION}}-dev-${{github.run_number}}-$short_commit_hash
+          image_tag=${{env.PROJECT_VERSION}}-$branch_tag-${{github.run_number}}-$short_commit_hash
         fi
 
         image_name="$repository/exhz/${PROJECT_NAME}:$image_tag"
