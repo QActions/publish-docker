@@ -19,6 +19,10 @@ runs:
         if [ "${{inputs.ref}}" == "refs/heads/master" ]
         then
           image_tag=${{env.PROJECT_VERSION}}
+
+          # Tag the commit with the correct version
+          git tag $image_tag
+          git push origin $image_tag
         else
           if [ "${{inputs.ref}}" == "refs/heads/dev" ]
           then
