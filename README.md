@@ -35,7 +35,7 @@ jobs:
         uses: .........
 
       - name: Publish Docker image to AWS ECR
-        uses: QActions/publish-service-image@1.1.0
+        uses: QActions/publish-service-image@1.2.0
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
